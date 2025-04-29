@@ -13,13 +13,13 @@
       height: 100vh;
     }
     canvas {
-      border: 1px solid #444;
-      background: #000;
+      /* border: 1px solid #444; */
+      background: #111;
     }
   </style>
 </head>
 <body>
-  <canvas id="visualizer" width="600" height="300"></canvas>
+  <canvas id="visualizer" width="800" height="600"></canvas>
 
   <script>
     const canvas = document.getElementById("visualizer");
@@ -34,27 +34,26 @@
         analyser.fftSize = 256;
         const bufferLength = analyser.frequencyBinCount;
         const dataArray = new Uint8Array(bufferLength);
-
         source.connect(analyser);
 
         function draw() {
           requestAnimationFrame(draw);
           analyser.getByteFrequencyData(dataArray);
 
-          ctx.fillStyle = "#000";
+          ctx.fillStyle = "#111";
           ctx.fillRect(0, 0, canvas.width, canvas.height);
 
-          const barWidth = (canvas.width / bufferLength) * 2.5;
+          const barWidth = (canvas.width / bufferLength) * 1.5;
           let x = 0;
 
           for (let i = 0; i < bufferLength; i++) {
             const barHeight = dataArray[i];
             const red = barHeight + 25;
-            const green = 250 - barHeight;
+            const green = 150;
             const blue = 150;
 
             ctx.fillStyle = `rgb(${red},${green},${blue})`;
-            ctx.fillRect(x, canvas.height - barHeight, barWidth, barHeight);
+            ctx.fillRect(x, canvas.height / 2 - barHeight, barWidth, barHeight * 2);
 
             x += barWidth + 1;
           }
